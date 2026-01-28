@@ -69,7 +69,7 @@ def gale_shapley(n, hospital_prefs, student_prefs):
     if n == 0:
         return []
 
-    # rank[s][h] = position of hospital h in student s's preference list
+    # rank[s][h] = position of hospital h in student s' preference list
     rank = [[0] * n for _ in range(n)]
     for s in range(n):
         for pos, h in enumerate(student_prefs[s]):
@@ -91,7 +91,7 @@ def gale_shapley(n, hospital_prefs, student_prefs):
         s = hospital_prefs[h][next_proposal[h]]
         next_proposal[h] += 1
         current = match_s[s]
-        if current == -1: # Student is free = immediate match
+        if current == -1:  # Student is free = immediate match
             match_h[h] = s
             match_s[s] = h
         else:  # Student compares current pairing vs new proposal
