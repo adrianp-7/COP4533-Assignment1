@@ -69,7 +69,7 @@ def gale_shapley(n, hospital_prefs, student_prefs):
     if n == 0:
         return []
 
-    # Student ranking: rank[s][h] = preference order
+    # rank[s][h] = position of hospital h in student s's preference list
     rank = [[0] * n for _ in range(n)]
     for s in range(n):
         for pos, h in enumerate(student_prefs[s]):
@@ -79,28 +79,31 @@ def gale_shapley(n, hospital_prefs, student_prefs):
     match_h = [-1] * n
     match_s = [-1] * n
 
-    free = deque(range(n))
+    free = deque(range(n))  # All hospitals start off as free
 
     while free:
         h = free.popleft()
+        # If h has proposed to everyone, it cannot be matched
         if next_proposal[h] >= n:
             continue  # Nobody left to propose to
 
+        # The next student on h's list
         s = hospital_prefs[h][next_proposal[h]]
         next_proposal[h] += 1
         current = match_s[s]
-        if current == -1: # Student is free
+        if current == -1: # Student is free = immediate match
             match_h[h] = s
             match_s[s] = h
         else:  # Student compares current pairing vs new proposal
-            if rank[s][h] < rank[s][current]:  # Student prefers the new hospital
+            if rank[s][h] < rank[s][current]:  # Student prefers the new hospital, so they trade up
                 match_h[h] = s
                 match_s[s] = h
-                match_h[current] = -1
+                match_h[current] = -1  # The old hospital becomes unmatched
 
+                # If the old hospital still has people left to propose to, it re-enters the free queue.
                 if next_proposal[current] < n:
                     free.append(current)
-            else:  # Student rejects h
+            else:  # Student prefers their current hospital and rejects h
                 if next_proposal[h] < n:
                     free.append(h)
     return match_h
