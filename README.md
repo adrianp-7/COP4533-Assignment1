@@ -2,8 +2,9 @@
 
 ## Students
 
-- **Adrian Pelaez** (UFID: `TODO`)
-- **Arnav Bagmar** (UFID: `13716381`)
+- **Adrian Pelaez**
+- **Arnav Bagmar**
+- UFIDs submitted as comments on Canvas
 
 ## Project Files
 
